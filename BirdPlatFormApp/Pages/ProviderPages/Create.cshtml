@@ -1,0 +1,64 @@
+﻿@page
+@model BirdPlatFormApp.Pages.ProviderPages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Provider</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Provider.ProviderName" class="control-label"></label>
+                <input asp-for="Provider.ProviderName" class="form-control" />
+                <span asp-validation-for="Provider.ProviderName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.Password" class="control-label"></label>
+                <input asp-for="Provider.Password" class="form-control" />
+                <span asp-validation-for="Provider.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.Address" class="control-label"></label>
+                <input asp-for="Provider.Address" class="form-control" />
+                <span asp-validation-for="Provider.Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.PhoneNumber" class="control-label"></label>
+                <input asp-for="Provider.PhoneNumber" class="form-control" />
+                <span asp-validation-for="Provider.PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.Birthday" class="control-label"></label>
+                <input asp-for="Provider.Birthday" class="form-control" />
+                <span asp-validation-for="Provider.Birthday" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.RoleId" class="control-label"></label>
+                <input asp-for="Provider.RoleId" class="form-control" />
+                <span asp-validation-for="Provider.RoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Provider.IsActive" class="control-label"></label>
+                <input asp-for="Provider.IsActive" class="form-control" />
+                <span asp-validation-for="Provider.IsActive" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,18 @@
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domain
+{
+    public class ApplicationUser
+    {   
+        public int? RoleId { get; set; }
+        public int? IsActive { get; set; }
+        public string? Email { get; set; }
+        public string? UserName { get; set; }
+        public string? AvatarUrl { get; set; }
+    }
+}
