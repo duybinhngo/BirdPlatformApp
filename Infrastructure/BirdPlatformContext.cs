@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -18,12 +19,13 @@ namespace Infrastructure
         {
         }
 
-        public virtual DbSet<BirdService> BirdServices { get; set; } = null!;
+        public virtual DbSet<Category> BirdServices { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<Provider> Providers { get; set; } = null!;
-        public virtual DbSet<Schedule> Schedules { get; set; } = null!;
+        public virtual DbSet<BirdService> Schedules { get; set; } = null!;
         public virtual DbSet<ScheduleTicket> ScheduleTickets { get; set; } = null!;
+        public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,9 +47,9 @@ namespace Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BirdService>(entity =>
+            modelBuilder.Entity<Category>(entity =>
             {
-                entity.ToTable("BirdService");
+                entity.ToTable("Category");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -57,23 +59,15 @@ namespace Infrastructure
 
                 entity.Property(e => e.IsActive).HasColumnName("isActive");
 
-                entity.Property(e => e.ProductName)
+                entity.Property(e => e.Name)
                     .HasMaxLength(255)
-                    .HasColumnName("productName");
+                    .HasColumnName("BirdServiceName");
 
-                entity.Property(e => e.ProductPrice)
-                    .HasColumnType("decimal(18, 0)")
-                    .HasColumnName("productPrice");
 
-                entity.Property(e => e.ProviderId).HasColumnName("providerId");
-
-                entity.Property(e => e.TypeId).HasColumnName("typeId");
-
-                entity.HasOne(d => d.Provider)
-                    .WithMany(p => p.BirdServices)
-                    .HasForeignKey(d => d.ProviderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__BirdServi__provi__5165187F");
+                entity.HasMany(d => d.BirdService)
+                    .WithOne(p => p.Category)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -177,15 +171,25 @@ namespace Infrastructure
                     .HasColumnName("providerName");
 
                 entity.Property(e => e.RoleId).HasColumnName("roleId");
+                entity.Property(e => e.AvatarUrl)
+                    .HasMaxLength(255)
+                    .HasColumnName("avatar_url");
             });
 
-            modelBuilder.Entity<Schedule>(entity =>
+            modelBuilder.Entity<BirdService>(entity =>
             {
-                entity.ToTable("Schedule");
+                entity.ToTable("BirdService");
 
                 entity.Property(e => e.AvailableSlots).HasColumnName("availableSlots");
 
-                entity.Property(e => e.BirdServiceId).HasColumnName("birdServiceId");
+                entity.Property(e => e.CategoryId).HasColumnName("CategoryId");
+                entity.Property(e => e.ProviderId).HasColumnName("ProviderId");
+                entity.Property(e => e.Description)
+                    .HasMaxLength(255)
+                    .HasColumnName("description");
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
+                entity.Property(e => e.Price)
+                    .HasColumnName("price");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -199,15 +203,15 @@ namespace Infrastructure
                     .HasColumnType("datetime")
                     .HasColumnName("deleted_at");
 
-                entity.Property(e => e.ScheduleDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("scheduleDate");
 
-                entity.HasOne(d => d.BirdService)
-                    .WithMany(p => p.Schedules)
-                    .HasForeignKey(d => d.BirdServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Schedule__birdSe__440B1D61");
+                entity.HasOne(d => d.Category)
+                    .WithMany(p => p.BirdService)
+                    .HasForeignKey(d => d.CategoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+                entity.HasOne(d => d.Provider)
+                    .WithMany(p => p.BirdServices)
+                    .HasForeignKey(d => d.ProviderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<ScheduleTicket>(entity =>
@@ -228,7 +232,7 @@ namespace Infrastructure
                     .HasColumnName("payment_online")
                     .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.ScheduleId).HasColumnName("scheduleId");
+                entity.Property(e => e.BirdServiceId).HasColumnName("scheduleId");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -237,18 +241,41 @@ namespace Infrastructure
                     .HasColumnName("totalPrice");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
+                entity.Property(entity => entity.ScheduleFrom).HasColumnName("scheduleFrom");
+                entity.Property(entity => entity.ScheduleTo).HasColumnName("scheduleTo");   
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.ScheduleTickets)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ScheduleT__order__4316F928");
+                    .OnDelete(DeleteBehavior.ClientSetNull);
 
-                entity.HasOne(d => d.Schedule)
+                entity.HasOne(d => d.BirdService)
                     .WithMany(p => p.ScheduleTickets)
-                    .HasForeignKey(d => d.ScheduleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__ScheduleT__sched__4222D4EF");
+                    .HasForeignKey(d => d.BirdServiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+            modelBuilder.Entity<Feedback>(entity =>
+            {
+                entity.ToTable("Feedback");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(255)
+                    .HasColumnName("customerName");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(255)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
+
+                entity.Property(e => e.BirdServiceId).HasColumnName("BirdServiceId");
+
+                entity.HasOne(d => d.BirdService)
+                    .WithMany(p => p.Feedbacks)
+                    .HasForeignKey(d => d.BirdServiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             OnModelCreatingPartial(modelBuilder);
