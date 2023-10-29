@@ -25,14 +25,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <ul class="navbar-nav flex-grow-1">
+                    @* <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/CustomerPages/Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                    </ul>
+                    </ul> *@
                     @{
                         var userJSON = httpContextAccessor.HttpContext!.Session.GetString("user");
                         var user = userJSON == null ? default(Userinfo) : JsonSerializer.Deserialize<Userinfo>(userJSON);
@@ -57,8 +57,8 @@
             </div>
         </nav>
     </header>
-    <div id="body-content" class="container d-flex align-items-center">
-        <main role="main" class="pb-3">
+    <div class="container d-flex align-items-center mt-5">
+        <main class="mt-5 pb-3">
             @RenderBody()
         </main>
     </div>
@@ -75,8 +75,13 @@
     <script>
         document.getElementById("btnLogout").addEventListener("click", () => {
             "@GoogleAuth.LogoutAsync()"
-            window.location.href = "/Login"
+            window.location.href = "/Index"
         })
+
+        function toogleProvider(id) {
+            var providerId = "provider-" + id;
+            document.getElementById(providerId).classList.toggle("hidden");
+        }
     </script>
 </body>
 </html>

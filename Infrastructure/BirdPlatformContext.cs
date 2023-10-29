@@ -69,6 +69,8 @@ namespace Infrastructure
 
                 entity.Property(e => e.TypeId).HasColumnName("typeId");
 
+                entity.Property(e => e.CreatedAt).HasColumnName("createdAt");
+
                 entity.HasOne(d => d.Provider)
                     .WithMany(p => p.BirdServices)
                     .HasForeignKey(d => d.ProviderId)
@@ -175,6 +177,15 @@ namespace Infrastructure
                 entity.Property(e => e.ProviderName)
                     .HasMaxLength(255)
                     .HasColumnName("providerName");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(255)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.AvatarUrl)
+                    .HasMaxLength(255)
+                    .HasColumnName("avatar_url");
+
 
                 entity.Property(e => e.RoleId).HasColumnName("roleId");
             });

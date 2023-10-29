@@ -2,65 +2,53 @@
 @model BirdPlatFormApp.Pages.BirdServicePages.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Home";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].ProductPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].IsActive)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].TypeId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BirdService[0].Provider)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.BirdService) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TypeId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Provider.Password)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="mx-5">
+    <div class="row">
+        <div class="col">
+            @foreach (var item in Model.BirdService)
+            {
+                <div class="card mb-4">
+                    <div id="service-section" class="card-body cursor-pointer" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                        <div class="d-flex justify-content-around">
+                            <img style="width: 100px; height: 75px;" class="img-fluid rounded mb-2 mr-2" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
+                            <div class="d-flex flex-column w-75">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="card-title mb-0">@Html.DisplayFor(modelItem => item.ProductName)</h5>
+                                        <span class="ml-0 text-success">5 slots available</span>
+                                    </div>
+                                    <span class="text-small">@Html.DisplayFor(modelItem => item.CreatedAt)</span>
+                                </div>
+                                <div class="card-text d-flex justify-content-between">
+                                    <div>
+                                        <strong>@Html.DisplayFor(modelItem => item.ProductPrice)$</strong>
+                                        <button class="btn btn-outline-primary"><a class="text-decoration-none" asp-page="/ScPages/">Register</a></button>
+                                    </div>
+                                    <span>@Html.DisplayFor(modelItem => item.Provider.ProviderName)</span>
+                                </div>
+                                <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="provider-@Html.DisplayFor(modelItem => item.Id)" class="col-md-8 mb-3 p-0 hidden">
+                    <div class="card">
+                        <div class="card-body">
+                            <img class="img-fluid rounded mb-2 mt-1"
+                                 src="@Html.DisplayFor(modelItem => item.Provider.AvatarUrl)" />
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Provider.ProviderName)</h5>
+                            <p class="card-text">Số điện thoại: @Html.DisplayFor(modelItem => item.Provider.PhoneNumber)</p>
+                            <p class="card-text">Địa chỉ: @Html.DisplayFor(modelItem => item.Provider.Address)</p>
+                            <strong>Mô tả</strong>
+                            <p class="card-text">
+                                @Html.DisplayFor(modelItem => item.Provider.Description)
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -14,5 +14,16 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #FFFBF5;
+}
+
+.show{
+    display: block;
+}
+.hidden {
+    display: none;
+}
+.cursor-pointer{
+    cursor: pointer;
 }

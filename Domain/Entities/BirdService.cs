@@ -17,6 +17,7 @@ namespace Domain.Entities
         public int IsActive { get; set; }
         public int TypeId { get; set; }
         public int ProviderId { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public virtual Provider Provider { get; set; } = null!;
         public virtual ICollection<Schedule> Schedules { get; set; }

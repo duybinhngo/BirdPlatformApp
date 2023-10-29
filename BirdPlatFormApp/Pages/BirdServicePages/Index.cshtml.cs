@@ -1,32 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Domain.Entities;
-using Infrastructure;
+using Application.Services.Interfaces;
 
 namespace BirdPlatFormApp.Pages.BirdServicePages
 {
     public class IndexModel : PageModel
     {
-        private readonly Infrastructure.BirdPlatformContext _context;
+        private readonly IBirdService birdService;
 
-        public IndexModel(Infrastructure.BirdPlatformContext context)
+        public IndexModel(IBirdService birdService)
         {
-            _context = context;
+            this.birdService = birdService;
         }
 
         public IList<BirdService> BirdService { get;set; } = default!;
-
         public async Task OnGetAsync()
         {
-            if (_context.BirdServices != null)
+            if (birdService != null)
             {
-                BirdService = await _context.BirdServices
-                .Include(b => b.Provider).ToListAsync();
+                BirdService = await birdService.GetAsync();
             }
         }
     }

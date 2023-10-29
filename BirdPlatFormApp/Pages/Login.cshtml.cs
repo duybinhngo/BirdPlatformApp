@@ -15,7 +15,7 @@ namespace BirdPlatFormApp.Pages
         public async Task<IActionResult> OnPostGoogleLogin()
         {
             await googleAuth.GoogleLoginAsync();
-            return RedirectToPage("/Index");
+            return RedirectToPage("/BirdServicePages/Index");
         }
         
     }

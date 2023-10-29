@@ -6,6 +6,8 @@ using System;
 using Application.Authentication.Google.Settings;
 using Microsoft.AspNetCore.Authentication.Google;
 using Application.Authentication.Google;
+using Application.Services.Interfaces;
+using Application.Services;
 
 namespace Application
 {
@@ -14,9 +16,17 @@ namespace Application
         public static IServiceCollection RegisterApplication(this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.RegisterAuthentication(configuration);
+            services.RegisterAuthentication(configuration)
+                    .RegisterServices();
+
             return services;
         }
+
+        private static IServiceCollection RegisterServices(this IServiceCollection services)
+        {
+            return services.AddTransient<IBirdService, BirdService>();
+        }
+
         private static IServiceCollection RegisterAuthentication(this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -38,5 +48,6 @@ namespace Application
             services.AddSingleton<GoogleResponse>();
             return services;
         }
+        
     }
 }

@@ -1,0 +1,63 @@
+﻿@page
+@model BirdPlatFormApp.Pages.SchedulePages.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Schedule</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Schedule.BirdServiceId" class="control-label"></label>
+                <select asp-for="Schedule.BirdServiceId" class ="form-control" asp-items="ViewBag.BirdServiceId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.ScheduleDate" class="control-label"></label>
+                <input asp-for="Schedule.ScheduleDate" class="form-control" />
+                <span asp-validation-for="Schedule.ScheduleDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.AvailableSlots" class="control-label"></label>
+                <input asp-for="Schedule.AvailableSlots" class="form-control" />
+                <span asp-validation-for="Schedule.AvailableSlots" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.CreatedAt" class="control-label"></label>
+                <input asp-for="Schedule.CreatedAt" class="form-control" />
+                <span asp-validation-for="Schedule.CreatedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.CreatedBy" class="control-label"></label>
+                <input asp-for="Schedule.CreatedBy" class="form-control" />
+                <span asp-validation-for="Schedule.CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.DeletedAt" class="control-label"></label>
+                <input asp-for="Schedule.DeletedAt" class="form-control" />
+                <span asp-validation-for="Schedule.DeletedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Schedule.DeleteBy" class="control-label"></label>
+                <input asp-for="Schedule.DeleteBy" class="form-control" />
+                <span asp-validation-for="Schedule.DeleteBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
