@@ -24,10 +24,10 @@ namespace Infrastructure
         {
             services.AddScoped(typeof(IRepositoryBase<>), typeof(RepositoryBase<>));
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IBirdServiceRepository, BirdServiceRepository>();
+            services.AddScoped<ICategoryRepository, CatogoryRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IProviderRepository, ProviderRepository>();
-            services.AddScoped<IScheduleRepository, ScheduleRepository>();
+            services.AddScoped<IBirdServiceRepository, BirdServiceRepository>();
             services.AddScoped<IScheduleTicketRepository, ScheduleTicketRepository>();
             return services;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.InterfaceRepositories
 {
-    public class ScheduleRepository : RepositoryBase<Schedule>, IScheduleRepository
+    public interface IFeedbackRepository : IRepositoryBase<Feedback>
     {
     }
 }

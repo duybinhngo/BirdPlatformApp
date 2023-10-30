@@ -1,13 +1,14 @@
 ﻿using Domain.Entities;
+using Infrastructure.InterfaceRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.InterfaceRepositories
+namespace Infrastructure
 {
-    public interface IBirdServiceRepository : IRepositoryBase<BirdService>
+    public class FeedbackRepository : RepositoryBase<Feedback>, IFeedbackRepository
     {
     }
 }

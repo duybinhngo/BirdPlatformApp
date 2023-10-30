@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.InterfaceRepositories
 {
-    public interface IScheduleRepository : IRepositoryBase<Schedule>
+    public interface ICategoryRepository : IRepositoryBase<Category>
     {
+        public Task<IEnumerable<Category>?> GetCategoryByName(string name);
+        public Task<Category> GetCategoryById(int id);
+
     }
 }

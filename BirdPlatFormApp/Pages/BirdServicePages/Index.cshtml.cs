@@ -18,7 +18,16 @@ namespace BirdPlatFormApp.Pages.BirdServicePages
         {
             if (birdService != null)
             {
-                BirdService = await birdService.GetAsync();
+                BirdService = await birdService.GetAsync(string.Empty);
+            }
+        }
+
+        public async Task OnPostSearchAsync()
+        {
+            var search = Request.Form["search"];
+            if (birdService != null)
+            {
+                BirdService = await birdService.GetAsync(search);
             }
         }
     }
