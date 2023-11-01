@@ -12,7 +12,7 @@ namespace Infrastructure.InterfaceRepositories
     {
         public async Task<IList<BirdService>> GetAllByProviderId(int providerId)
         {
-            return await _context.BirdService.Where(x => x.ProviderId == providerId).ToListAsync();
+            return await _context.BirdServices.Where(x => x.ProviderId == providerId).ToListAsync();
         }
     }
 }

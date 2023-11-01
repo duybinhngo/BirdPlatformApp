@@ -19,11 +19,11 @@ namespace Infrastructure
         {
         }
 
-        public virtual DbSet<Category> Category { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<Provider> Providers { get; set; } = null!;
-        public virtual DbSet<BirdService> BirdService { get; set; } = null!;
+        public virtual DbSet<BirdService> BirdServices { get; set; } = null!;
         public virtual DbSet<ScheduleTicket> ScheduleTickets { get; set; } = null!;
         public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
 
