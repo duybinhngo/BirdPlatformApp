@@ -9,5 +9,6 @@ namespace Infrastructure.InterfaceRepositories
 {
     public interface IBirdServiceRepository : IRepositoryBase<BirdService>
     {
+        public Task<IList<BirdService>> GetAllByProviderId(int providerId);
     }
 }
