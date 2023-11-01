@@ -21,13 +21,13 @@ namespace Infrastructure.InterfaceRepositories
 
             if (customer is null)
             {
-                var registedCustomer = Register(email, username, avatar_url);
+                var registedCustomer = await Register(email, username, avatar_url);
                 return registedCustomer;
             }
 
             return customer;
         }
-        private Customer Register(string email
+        private async Task<Customer> Register(string email
             , string username, string avatar_url)
         {
             var customer = new Customer
@@ -38,6 +38,8 @@ namespace Infrastructure.InterfaceRepositories
                 IsActive = 1,
                 AvatarUrl = avatar_url
             };
+
+            await base.CreateAsync(customer);
 
             return customer;
         }

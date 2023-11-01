@@ -1,4 +1,5 @@
-﻿using Infrastructure;
+﻿using Application;
+using Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
@@ -20,12 +21,11 @@ namespace BirdPlatFormApp
             services.AddRazorPages();
             services.RegisterApp(Configuration)
                     .RegisterInfrastructure(Configuration)
+                    .RegisterApplication(Configuration)
                     .RegisterRepository();
 
             services.AddMvc().AddRazorPagesOptions(
-                options =>
-                {
-                }
+                options => options.Conventions.AddPageRoute("/Login", "")
             );
 
             services.AddHttpContextAccessor().AddAuthentication();
@@ -57,6 +57,7 @@ namespace BirdPlatFormApp
             app.UseSession();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapRazorPages();
             });
 

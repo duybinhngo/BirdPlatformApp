@@ -1,0 +1,51 @@
+﻿@page
+@model BirdPlatFormApp.Pages.BirdServicePages.ServiceRegisterModel
+@{
+    ViewData["Title"] = "Register | Services";
+}
+<div>
+    <div class="p-5 rounded white-bg d-flex justify-content-center">
+        <div class="d-flex flex-column">
+            <img class="img-thumbnail w-100 rounded" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
+            <strong class="text-center font-large">@Html.DisplayFor(modelItem => modelItem.BirdService.Category.Name)</strong>
+            <div class="d-flex">
+                <span class="text-danger mr-2">@Html.DisplayFor(modelItem => modelItem.BirdService.AvailableSlots) available slots</span>
+                <span class="text-success mr-3">@Html.DisplayFor(modelItem => modelItem.BirdService.Price)</span>
+            </div>
+        </div>
+        <div class="ml-5 d-flex flex-column">
+            <form method="post">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="time">Time</label>
+                    </div>
+                    <select class="custom-select" id="time">
+                        <option selected>Choose...</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="form-group m-1">
+                        <label for="fromDate">From</label>
+                        <input class="form-control" name="fromDate" />
+                    </div>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-1">
+                        <label for="toDate">To</label>
+                        <input class="form-control" name="toDate" />
+                    </div>
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-outline-primary">Register</button></div>
+            </form>
+        </div>
+    </div>
+</div>
