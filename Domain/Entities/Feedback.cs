@@ -11,7 +11,7 @@ namespace Domain.Entities
         public int Id { get; set; }
         public string CustomerName { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
         public int BirdServiceId { get; set; }
         public virtual BirdService BirdService { get; set; } = null!;
     }

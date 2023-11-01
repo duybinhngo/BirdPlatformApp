@@ -47,10 +47,6 @@ button.accept-policy {
   line-height: 60px;
 }
 
-#body-content{
-    height: 100vh;
-    width: 100vw
-}
 main{
     width: 100%;
 }

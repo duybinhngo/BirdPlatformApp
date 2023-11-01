@@ -12,6 +12,7 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BirdPlatFormApp.styles.css" asp-append-version="true" />
 </head>
@@ -25,14 +26,14 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
-                    <ul class="navbar-nav flex-grow-1">
+                    @* <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/CustomerPages/Index">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                    </ul>
+                    </ul> *@
                     @{
                         var userJSON = httpContextAccessor.HttpContext!.Session.GetString("user");
                         var user = userJSON == null ? default(Userinfo) : JsonSerializer.Deserialize<Userinfo>(userJSON);
@@ -57,8 +58,8 @@
             </div>
         </nav>
     </header>
-    <div id="body-content" class="container d-flex align-items-center">
-        <main role="main" class="pb-3">
+    <div class="container d-flex align-items-center mt-5">
+        <main class="mt-5 pb-3">
             @RenderBody()
         </main>
     </div>
@@ -75,8 +76,22 @@
     <script>
         document.getElementById("btnLogout").addEventListener("click", () => {
             "@GoogleAuth.LogoutAsync()"
-            window.location.href = "/Login"
+            window.location.href = "/Index"
         })
+
+        function toogleProvider(id) {
+            var providerId = "provider-" + id;
+            document.getElementById(providerId).classList.toggle("hidden");
+        }
+
+        function showFeedbackModal(id) {
+            var feedbackId = "feedback-" + id;
+            document.getElementById(feedbackId).style.display = "block";
+        }
+        function closeFeedbackModal(id) {
+            var feedbackId = "feedback-" + id;
+            document.getElementById(feedbackId).style.display = "none";
+        }
     </script>
 </body>
 </html>
