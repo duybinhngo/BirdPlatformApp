@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text.Json;
 
-namespace BirdPlatFormApp.Services.Session
+namespace Infrastructure.Comon.Extensions
 {
     public static class SessionExtension
     {
-        public static ISession SetObject(this ISession session, string key, object value)
+        public static void SetObject(this ISession session, string key, object value)
         {
             session.SetString(key, JsonSerializer.Serialize(value));
-            return session;
         }
 
         public static T GetObject<T>(this ISession session, string key)

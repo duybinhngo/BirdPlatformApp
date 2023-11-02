@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Extensions.Options;
 
 namespace BirdPlatFormApp
 {
@@ -29,9 +30,11 @@ namespace BirdPlatFormApp
             );
 
             services.AddHttpContextAccessor().AddAuthentication();
-            services.AddSession(option =>
+            services.AddSession(options =>
             {
-                option.IdleTimeout = TimeSpan.FromMinutes(45);
+                options.IdleTimeout = TimeSpan.FromMinutes(60);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
             });
             services.Configure<MvcOptions>(options =>
             {

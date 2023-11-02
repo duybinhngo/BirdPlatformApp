@@ -67,6 +67,8 @@ namespace Infrastructure
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
+                entity.Property(e => e.IsRentingService).HasColumnName("IsRentingService");
+
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.BirdService)
                     .HasForeignKey(d => d.CategoryId)
@@ -103,7 +105,10 @@ namespace Infrastructure
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(255);
 
-                entity.Property(e => e.Username).HasMaxLength(255);
+                entity.Property(e => e.Username).HasMaxLength(255).HasColumnName("UserName");
+
+                entity.Property(e => e.Email).HasColumnName("Email");
+                entity.Property(e => e.IsActive).HasColumnName("IsActive");
             });
 
             modelBuilder.Entity<Feedback>(entity =>
