@@ -10,12 +10,17 @@ namespace Infrastructure.InterfaceRepositories
 {
     public class ProviderRepository : RepositoryBase<Provider>, IProviderRepository
     {
-        public async Task<Provider?> GetProviderById(int id)
+        public async Task<List<Provider>> GetAllProviders()
+        {
+            return await _context.Providers.ToListAsync();
+        }
+
+        public async Task<Provider?> GetProviderById(int? id)
         {
             return await _context.Providers.Where(x => x.Id == id).FirstAsync();
         }
 
-        public async Task<IEnumerable<Provider>?> GetProviderByName(string name)
+        public async Task<IList<Provider>?> GetProviderByName(string name)
         {
             return await _context.Providers.Where(x => name.Contains(x.ProviderName)).ToListAsync();
         }

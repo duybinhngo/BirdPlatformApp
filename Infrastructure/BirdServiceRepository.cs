@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,9 @@ namespace Infrastructure.InterfaceRepositories
 {
     public class BirdServiceRepository : RepositoryBase<BirdService>, IBirdServiceRepository
     {
+        public async Task<IList<BirdService>> GetAllByProviderId(int providerId)
+        {
+            return await _context.BirdServices.Where(x => x.ProviderId == providerId).ToListAsync();
+        }
     }
 }
