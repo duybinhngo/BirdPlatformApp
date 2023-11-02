@@ -7,45 +7,108 @@
     <div class="p-5 rounded white-bg d-flex justify-content-center">
         <div class="d-flex flex-column">
             <img class="img-thumbnail w-100 rounded" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
-            <strong class="text-center font-large">@Html.DisplayFor(modelItem => modelItem.BirdService.Category.Name)</strong>
-            <div class="d-flex">
-                <span class="text-danger mr-2">@Html.DisplayFor(modelItem => modelItem.BirdService.AvailableSlots) available slots</span>
-                <span class="text-success mr-3">@Html.DisplayFor(modelItem => modelItem.BirdService.Price)</span>
-            </div>
         </div>
         <div class="ml-5 d-flex flex-column">
-            <form method="post">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="time">Time</label>
-                    </div>
-                    <select class="custom-select" id="time">
-                        <option selected>Choose...</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                    </select>
+            <strong class="text-center font-large mb-3">@Html.DisplayFor(modelItem => modelItem.BirdService.Category.Name)</strong>
+            <div class="d-flex">
+                <div class="form-group mb-2 mr-1">
+                    <label for="availableSlots">Available Slots</label>
+                    <input class="form-control" name="" value="@Html.DisplayFor(modelItem => modelItem.BirdService.AvailableSlots) available slots" disabled />
                 </div>
-                <div class="d-flex justify-content-center">
-                    <div class="form-group m-1">
-                        <label for="fromDate">From</label>
-                        <input class="form-control" name="fromDate" />
-                    </div>
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
+                <div class="form-group mb-2">
+                    <label for="price">Price</label>
+                    <input id="price" class="form-control" name="" value="@Html.DisplayFor(modelItem => modelItem.BirdService.Price)" disabled />
+                </div>
+            </div>
+            @if (@Model.BirdService.IsRentingService == 1)
+            {
+                <form method="post" asp-page-handler="RaisingService">
+
+                    <div class="d-flex justify-content-center">
+                        <div class="form-group m-1 w-50">
+                            <label for="fromDate">From</label>
+                            <input id="fromDate" type="date" class="form-control" asp-for="fromDate" />
+                        </div>
+                        <div class="form-group m-1 w-50">
+                            <label for="toDate">To</label>
+                            <input id="toDate" type="date" class="form-control" asp-for="toDate"/>
+
                         </div>
                     </div>
-                    <div class="form-group m-1">
-                        <label for="toDate">To</label>
-                        <input class="form-control" name="toDate" />
+                    <div class="text-center mt-3"><button type="button" class="btn btn-outline-primary" onclick="ticketPopup()">Register</button></div>
+                    <div id="ticketPopup" class="modal hidden">
+                        <div class="container bg-white p-5 rounded">
+                            <div class="d-flex justify-content-between">
+                                <h3>Ticket Confirmation</h3>
+                                <span class="close" onclick="closeTicketPopup()">&times;</span>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="form-group m-1 w-50">
+                                    <label for="fromDatePopup">From</label>
+                                    <input id="fromDatePopup" type="date" class="form-control" disabled />
+                                </div>
+                                <div class="form-group m-1 w-50">
+                                    <label for="toDatePopup">To</label>
+                                    <input id="toDatePopup" type="date" class="form-control" disabled />
+
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <div class="form-group m-1 w-50">
+                                    <label for="days">Total Days</label>
+                                    <input id="totalDays" type="text" class="form-control" name="days" value="" disabled />
+                                </div>
+                                <div class="form-group m-1 w-50">
+                                    <label for="total">Total Price</label>
+                                    <input id="totalPrice" type="text" class="form-control" asp-for="totalPrice" value="" disabled />
+                                </div>
+                            </div>
+                            <div class="text-center mt-3 mb-3"><button type="submit" class="btn btn-outline-primary">Register</button></div>
+                        </div>
                     </div>
-                </div>
-                <div class="text-center"><button type="submit" class="btn btn-outline-primary">Register</button></div>
-            </form>
+                </form>
+            }
+            else
+            {
+                <form method="post" asp-page-handler="RaisingService">
+                    <div class="input-group mb-3 mt-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="time">Schedule Time</label>
+                        </div>
+                        <select id="time" name="time">
+                            <option value="8" selected>8am - 9am</option>
+                            <option value="9">9am - 10am</option>
+                            <option value="10">10am - 11am</option>
+                            <option value="11">11am - 12am</option>
+                            <option value="12">12am - 13pm</option>
+                            <option value="13">13am - 14pm</option>
+                            <option value="14">14am - 15pm</option>
+                            <option value="15">15am - 16pm</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="form-group m-1 w-100">
+                            <label for="date">Date</label>
+                            <input type="date" class="form-control" name="date" />
+                        </div>
+                    </div>
+                    <div class="text-center mt-3"><button type="submit" class="btn btn-outline-primary">Register</button></div>
+                </form>
+            }
+            <div>
+                <span class="text-danger">
+                    * Note <br />
+                    Rasing Service:
+                    <br />
+                    &#9; Raising service will keep your bird in period that you registered on above registration form.
+                    <br />
+                    &#9; Total price will be calculated by unit price per hour * hour you registed.
+                    <br />
+                    Other Service:
+                    <br />
+                    &#9; Choose the time combobox and specified date to register
+                </span>
+            </div>
         </div>
     </div>
 </div>

@@ -17,6 +17,7 @@ namespace Domain.Entities
         public int CreatedBy { get; set; }
         public DateTime DeletedAt { get; set; }
         public int DeleteBy { get; set; }
+        public int IsRentingService { get; set; }
 
         public virtual Category Category { get; set; } = null!;
         public virtual Provider Provider { get; set; } = null!;

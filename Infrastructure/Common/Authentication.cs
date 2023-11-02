@@ -1,8 +1,9 @@
 ﻿using Domain;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Diagnostics.Eventing.Reader;
 
-namespace BirdPlatFormApp
+namespace Infrastructure.Common
 {
     public static class Authentication
     {

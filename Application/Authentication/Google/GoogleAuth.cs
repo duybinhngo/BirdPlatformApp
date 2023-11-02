@@ -1,12 +1,14 @@
 ﻿using Application.Authentication.Google.Settings;
-using BirdPlatFormApp.Services.Session;
+using Domain;
+using Domain.Entities;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Oauth2.v2;
 using Google.Apis.Oauth2.v2.Data;
 using Google.Apis.Services;
+using Infrastructure.Common;
 using Infrastructure.InterfaceRepositories;
 using Microsoft.AspNetCore.Http;
-using Microsoft.IdentityModel.Tokens;
+using Auth = Infrastructure.Common;
 
 namespace Application.Authentication.Google
 {
@@ -47,17 +49,26 @@ namespace Application.Authentication.Google
             });
             var userInfo = await oauthSerivce.Userinfo.Get().ExecuteAsync();
 
-            var customer = customerRepository.Authenticated(userInfo.Email, userInfo.Name, userInfo.Picture);
+            var customer = await customerRepository.Authenticated(userInfo.Email, userInfo.Name, userInfo.Picture);
             if (customer is null) return null;
 
             googleResponse.Credential = credential;
-            httpContextAccessor.HttpContext.Session.SetObject("user", userInfo);
+            var appUser = new ApplicationUser()
+            {
+                Id = customer.Id,
+                Email = customer.Email,
+                UserName = customer.Username,
+                IsActive = customer.IsActive,
+                AvatarUrl = customer.AvatarUrl,
+            };
+            Auth::Authentication.SetAuthentication(httpContextAccessor.HttpContext, appUser);
+            var result = Auth::Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
+            Console.WriteLine(result);
             return userInfo;
         }
 
         public async Task<bool> LogoutAsync()
         {
-            httpContextAccessor.HttpContext.Session.Clear();
             return await RevokeAsync();
         }
 

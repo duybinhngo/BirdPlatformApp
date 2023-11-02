@@ -24,7 +24,11 @@ namespace Application
 
         private static IServiceCollection RegisterServices(this IServiceCollection services)
         {
-            return services.AddTransient<IBirdService, BirdService>();
+            services.AddTransient<IBirdService, BirdService>();
+            services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IScheduleTicketService, ScheduleTicketService>();
+
+            return services;
         }
 
         private static IServiceCollection RegisterAuthentication(this IServiceCollection services,

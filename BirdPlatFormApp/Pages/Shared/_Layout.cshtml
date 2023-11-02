@@ -3,6 +3,7 @@
 @using System.Text.Json
 @using Google.Apis.Oauth2.v2.Data
 @using Google.Apis.Auth.OAuth2;
+@using Domain;
 @using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="en">
@@ -35,8 +36,8 @@
                         </li>
                     </ul> *@
                     @{
-                        var userJSON = httpContextAccessor.HttpContext!.Session.GetString("user");
-                        var user = userJSON == null ? default(Userinfo) : JsonSerializer.Deserialize<Userinfo>(userJSON);
+                        var userJSON = httpContextAccessor.HttpContext!.Session.GetString("current_user");
+                        var user = userJSON == null ? default(ApplicationUser) : JsonSerializer.Deserialize<ApplicationUser>(userJSON);
                     }
                     @if (user is null)
                     {
@@ -45,9 +46,9 @@
                     else
                     {
                         <div class="d-flex">
-                            <span class="d-flex align-items-center">@user.Name</span>
+                            <span class="d-flex align-items-center">@user.UserName</span>
                             <div class="dropdown">
-                                <img class="ms-2 img-thumbnail avatar dropdown-toggle" src="@user.Picture" data-toggle="dropdown">
+                                <img class="ms-2 img-thumbnail avatar dropdown-toggle" src="@user.AvatarUrl" data-toggle="dropdown">
                                 <ul class="dropdown-menu">
                                     <li id="btnLogout" class="list-group-item btn-outline-danger">Logout</li>
                                 </ul>
@@ -91,6 +92,50 @@
         function closeFeedbackModal(id) {
             var feedbackId = "feedback-" + id;
             document.getElementById(feedbackId).style.display = "none";
+        }
+
+        function ticketPopup() {
+            if (document.getElementById("fromDate").value == '') {
+                alert("From date must be required!!!"); return;
+            }
+            if (document.getElementById("toDate").value == '') {
+                alert("To date must be required!!!"); return;
+            }
+            fromDate = new Date(document.getElementById("fromDate").value);
+            toDate = new Date(document.getElementById("toDate").value);
+
+            if (toDate - fromDate < 0) {
+                alert("From date must be earlier!!!"); return;
+            }
+
+            totalDays = document.getElementById("totalDays");
+            totalPrice = document.getElementById("totalPrice");
+            price = document.getElementById("price");
+
+            fromDateInput = document.getElementById("fromDatePopup");
+            toDateInput = document.getElementById("toDatePopup");
+            fromDateInput.value = formatDate(fromDate);
+            toDateInput.value = formatDate(toDate);
+
+            totalDays.value = (toDate.getTime() - fromDate.getTime()) / (1000 * 3600 * 24);
+            totalPrice.value = parseInt(price.value) * parseInt(totalDays.value);
+
+            document.getElementById("ticketPopup").style.display = "block";
+        }
+
+        function closeTicketPopup() {
+            document.getElementById("ticketPopup").style.display = "none";
+        }
+        function padTo2Digits(num) {
+            return num.toString().padStart(2, '0');
+        }
+
+        function formatDate(date = new Date()) {
+            return [
+                date.getFullYear(),
+                padTo2Digits(date.getMonth() + 1),
+                padTo2Digits(date.getDate()),
+            ].join('-');
         }
     </script>
 </body>

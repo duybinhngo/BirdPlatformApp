@@ -33,7 +33,7 @@ namespace Application.Services
 
         public async Task<Entity.BirdService> GetByIdAsync(int id)
         {
-            var model = await birdServiceRepository.GetAll().SingleOrDefaultAsync(x => x.Id == id);
+            var model = await birdServiceRepository.GetAll().Include("Category").SingleOrDefaultAsync(x => x.Id == id);
             return model;
         }
     }

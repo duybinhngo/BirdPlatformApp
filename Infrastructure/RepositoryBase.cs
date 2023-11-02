@@ -24,17 +24,29 @@ namespace Infrastructure
             return _dbSet.AsQueryable();
         }
 
-        public async Task CreateAsync(T entity)
+        public async Task<T> CreateAsync(T entity, bool returnEntity)
         {
-            _dbSet.Add(entity);
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+            var entry = _dbSet.Add(entity);
             await _context.SaveChangesAsync();
+            return entry.Entity;
         }
 
-        public async Task UpdateAsync(T entity)
+        public async Task<bool> CreateAsync(T entity)
+        {
+            _dbSet.Add(entity);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<bool> UpdateAsync(T entity)
         {
             var tracker = _context.Attach(entity);
             tracker.State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            _dbSet.Update(entity);
+            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<bool> DeleteAsync(T entity)
