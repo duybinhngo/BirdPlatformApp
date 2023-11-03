@@ -23,7 +23,9 @@
             @if (@Model.BirdService.IsRentingService == 1)
             {
                 <form method="post" asp-page-handler="RaisingService">
-
+                    <input type="text" asp-for="price" value="@Model.BirdService.Price" hidden />
+                    <input type="text" asp-for="BirdService.Id" value="@Model.BirdService.Id" hidden />
+                    <input type="text" asp-for="BirdService.Category.Name" value="@Model.BirdService.Category.Name" hidden />
                     <div class="d-flex justify-content-center">
                         <div class="form-group m-1 w-50">
                             <label for="fromDate">From</label>
@@ -60,7 +62,7 @@
                                 </div>
                                 <div class="form-group m-1 w-50">
                                     <label for="total">Total Price</label>
-                                    <input id="totalPrice" type="text" class="form-control" asp-for="totalPrice" value="" disabled />
+                                    <input id="totalPrice" type="text" class="form-control" asp-for="BirdService.Price" value="@Model.BirdService.Price" disabled />
                                 </div>
                             </div>
                             <div class="text-center mt-3 mb-3"><button type="submit" class="btn btn-outline-primary">Register</button></div>
@@ -70,12 +72,15 @@
             }
             else
             {
-                <form method="post" asp-page-handler="RaisingService">
+                <form method="post" asp-page-handler="OtherService">
+                    <input type="text" asp-for="price" value="@Model.BirdService.Price" hidden />
+                    <input type="text" asp-for="BirdService.Id" value="@Model.BirdService.Id" hidden />
+                    <input type="text" asp-for="BirdService.Category.Name" value="@Model.BirdService.Category.Name" hidden />
                     <div class="input-group mb-3 mt-3">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="time">Schedule Time</label>
                         </div>
-                        <select id="time" name="time">
+                        <select id="time" asp-for="time">
                             <option value="8" selected>8am - 9am</option>
                             <option value="9">9am - 10am</option>
                             <option value="10">10am - 11am</option>
@@ -89,7 +94,7 @@
                     <div class="input-group mb-3">
                         <div class="form-group m-1 w-100">
                             <label for="date">Date</label>
-                            <input type="date" class="form-control" name="date" />
+                            <input type="date" class="form-control" asp-for="fromDate" />
                         </div>
                     </div>
                     <div class="text-center mt-3"><button type="submit" class="btn btn-outline-primary">Register</button></div>

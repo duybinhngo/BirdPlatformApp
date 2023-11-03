@@ -4,6 +4,7 @@ namespace Application.Services.Interfaces
 {
     public interface IProviderService
     {
-        Task<List<Provider>> GetAsync();
+        Task<List<Provider>> GetAsync(string? search);
+        Task<Provider> GetAsyncByEmail(string email);
     }
 }

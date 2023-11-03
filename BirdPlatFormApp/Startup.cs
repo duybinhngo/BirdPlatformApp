@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Rewrite;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 
 namespace BirdPlatFormApp
@@ -65,6 +66,7 @@ namespace BirdPlatFormApp
             });
 
             app.UseRewriter(new RewriteOptions().AddRedirectToHttps());
+
         }
     }
 }

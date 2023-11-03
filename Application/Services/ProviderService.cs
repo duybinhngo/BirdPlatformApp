@@ -13,9 +13,14 @@ namespace Application.Services
             this.providerRepository = providerRepository;
         }
 
-        public async Task<List<Provider>> GetAsync()
+        public async Task<List<Provider>> GetAsync(string? search)
         {
-            return await providerRepository.GetAll().ToListAsync();
+            return await providerRepository.GetAll().Where(x => x.ProviderName.Contains(search)).ToListAsync();
+        }
+
+        public async Task<Provider> GetAsyncByEmail(string email)
+        {
+            return await providerRepository.GetAll().SingleOrDefaultAsync(x => x.Email.Equals(email));
         }
     }
 }

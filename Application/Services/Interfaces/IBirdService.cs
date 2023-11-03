@@ -6,5 +6,6 @@ namespace Application.Services.Interfaces
     {
         Task<List<Entity::BirdService>> GetAsync(string? search);
         Task<Entity::BirdService> GetByIdAsync(int id);
+        Task<Entity::BirdService> CreateAsync(Entity::BirdService birdService);
     }
 }

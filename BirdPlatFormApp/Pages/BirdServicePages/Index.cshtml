@@ -102,13 +102,15 @@
         <div class="d-flex justify-content-start mb-2">
             <img style="width: 100px; height: 75px;" class="img-fluid rounded mr-2" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
             <div class="d-flex flex-column">
-                <strong>@Html.DisplayFor(modelItem => item.Category.Name)</strong>
-                <div class="d-flex justify-content-start">
-                    <span class="fa fa-star rate-checked"></span>
-                    <span class="fa fa-star rate-checked"></span>
-                    <span class="fa fa-star rate-checked"></span>
-                    <span class="fa fa-star rate-checked"></span>
-                    <span class="fa fa-star rate-checked"></span>
+                <div class="d-flex">
+                    <strong>@Html.DisplayFor(modelItem => item.Category.Name)</strong>
+                    <div class="d-flex justify-content-start ml-1">
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                    </div>
                 </div>
                 <span>@Html.DisplayFor(modelItem => item.CreatedAt.Day)/@Html.DisplayFor(modelItem => item.CreatedAt.Month)/@Html.DisplayFor(modelItem => item.CreatedAt.Year)</span>
             </div>

@@ -29,6 +29,7 @@ namespace Infrastructure
             services.AddScoped<IProviderRepository, ProviderRepository>();
             services.AddScoped<IBirdServiceRepository, BirdServiceRepository>();
             services.AddScoped<IScheduleTicketRepository, ScheduleTicketRepository>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             return services;
         }
     }
