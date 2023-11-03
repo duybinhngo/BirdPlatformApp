@@ -12,6 +12,17 @@ namespace BirdPlatFormApp.Pages
         {
             this.googleAuth = googleAuth;
         }
+        [BindProperty]
+        public string Username { get; set; }
+
+        [BindProperty]
+        public string Password { get; set; }
+
+        public async Task<IActionResult> OnPost()
+        {
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostGoogleLogin()
         {
             await googleAuth.GoogleLoginAsync();

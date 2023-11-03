@@ -19,6 +19,11 @@ namespace Application.Services
             this.providerRepository = providerRepository;
         }
 
+        public async Task<Entity.BirdService> CreateAsync(Entity.BirdService birdService)
+        {
+            return await birdServiceRepository.CreateAsync(birdService, true);
+        }
+
         public async Task<List<Entity::BirdService>> GetAsync(string? search)
         {
             

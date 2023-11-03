@@ -57,12 +57,6 @@ namespace Infrastructure
 
                 entity.Property(e => e.CreatedBy).HasColumnName("Created_by");
 
-                entity.Property(e => e.DeleteBy).HasColumnName("Delete_by");
-
-                entity.Property(e => e.DeletedAt)
-                    .HasColumnType("datetime")
-                    .HasColumnName("Deleted_at");
-
                 entity.Property(e => e.Description).HasMaxLength(255);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
@@ -163,7 +157,7 @@ namespace Infrastructure
 
                 entity.Property(e => e.ProviderName).HasMaxLength(255);
 
-                entity.Property(e => e.ProviderName).HasMaxLength(255);
+                entity.Property(e => e.Email).HasMaxLength(255);
             });
 
             modelBuilder.Entity<ScheduleTicket>(entity =>

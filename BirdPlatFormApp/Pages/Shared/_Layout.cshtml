@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">Bird Platform</a>
+                <a class="navbar-brand" asp-area="" asp-page="/BirdServicePages/Index">Bird Platform</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -49,9 +49,21 @@
                             <span class="d-flex align-items-center">@user.UserName</span>
                             <div class="dropdown">
                                 <img class="ms-2 img-thumbnail avatar dropdown-toggle" src="@user.AvatarUrl" data-toggle="dropdown">
-                                <ul class="dropdown-menu">
-                                    <li id="btnLogout" class="list-group-item btn-outline-danger">Logout</li>
-                                </ul>
+                                @if (@user.RoleId == 1)
+                                {
+                                    <ul class="dropdown-menu">
+                                        <li class="list-group-item btn-outline-primary"><a class="text-decoration-none text-black" href="/ProviderPages/CreateBirdService">Create Service</a></li>
+                                        <li class="list-group-item btn-outline-primary"><a class="text-decoration-none text-black" href="/ProviderPages/TicketManagement">View Orders</a></li>
+                                        <li id="btnLogout" class="list-group-item btn-outline-danger" onclick="logout()">Logout</li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <ul class="dropdown-menu">
+                                        <li class="list-group-item btn-outline-primary"><a class="text-decoration-none text-black" href="/BirdServicePages/OrderTrackingProgress">Order Tracking</a></li>
+                                        <li id="btnLogout" class="list-group-item btn-outline-danger" onclick="logout()">Logout</li>
+                                    </ul>
+                                }
                             </div>
                         </div>
                     }
@@ -75,10 +87,10 @@
 
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-        document.getElementById("btnLogout").addEventListener("click", () => {
+        function logout() {
             "@GoogleAuth.LogoutAsync()"
-            window.location.href = "/Index"
-        })
+            window.location.href = "/Login"
+        }
 
         function toogleProvider(id) {
             var providerId = "provider-" + id;
@@ -89,20 +101,35 @@
             var feedbackId = "feedback-" + id;
             document.getElementById(feedbackId).style.display = "block";
         }
+        function addFeedbackModal(id) {
+            var feedbackId = "add-feedback-" + id;
+            document.getElementById(feedbackId).style.display = "block";
+        }
         function closeFeedbackModal(id) {
             var feedbackId = "feedback-" + id;
             document.getElementById(feedbackId).style.display = "none";
         }
 
         function ticketPopup() {
-            if (document.getElementById("fromDate").value == '') {
+            fromDateInp = document.getElementById("fromDate");
+            toDateInp = document.getElementById("toDate");
+
+            if (fromDateInp.value == '') {
                 alert("From date must be required!!!"); return;
             }
-            if (document.getElementById("toDate").value == '') {
+            if (toDateInp.value == '') {
                 alert("To date must be required!!!"); return;
             }
-            fromDate = new Date(document.getElementById("fromDate").value);
-            toDate = new Date(document.getElementById("toDate").value);
+            fromDate = new Date(fromDateInp.value);
+            toDate = new Date(toDateInp.value);
+
+            if (fromDate - Date.now() < 0 || toDate - Date.now() < 0) {
+                alert("Date must be later than today!!!"); return;
+            }
+
+            if (toDate - fromDate == 0) {
+                alert("To date must be later than 1 day!!!"); return;
+            }
 
             if (toDate - fromDate < 0) {
                 alert("From date must be earlier!!!"); return;

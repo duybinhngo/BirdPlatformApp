@@ -14,6 +14,7 @@ namespace Domain.Entities
         public string? AvatarUrl { get; set; }
         public int RoleId { get; set; }
         public int IsActive { get; set; }
+        public string? Email { get; set; }
         public virtual ICollection<BirdService> BirdServices { get; set; } = new List<BirdService>();
 
     }
