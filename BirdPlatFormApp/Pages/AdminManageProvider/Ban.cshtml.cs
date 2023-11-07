@@ -24,7 +24,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _providerRepository.GetAll() == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -44,7 +44,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
 
         public async Task<IActionResult> OnPostBanAsync(int? id)
         {
-            if (id == null || _providerRepository.GetAll() == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -62,7 +62,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
 
         public async Task<IActionResult> OnPostUnbanAsync(int? id)
         {
-            if (id == null || _providerRepository.GetAll() == null)
+            if (id == null)
             {
                 return NotFound();
             }

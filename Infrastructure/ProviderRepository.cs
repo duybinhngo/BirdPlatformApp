@@ -15,7 +15,7 @@ namespace Infrastructure.InterfaceRepositories
             return await _context.Providers.ToListAsync();
         }
 
-        public async Task<Provider?> GetProviderById(int? id)
+        public async Task<Provider> GetProviderById(int? id)
         {
             return await _context.Providers.Where(x => x.Id == id).FirstAsync();
         }

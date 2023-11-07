@@ -24,10 +24,7 @@ namespace BirdPlatFormApp.Pages.AdminManageProvider
 
         public async Task OnGetAsync(int id)
         {
-            if (_birdServiceRepository.GetAll() != null)
-            {
-                BirdService = await _birdServiceRepository.GetAllByProviderId(id);
-            }
+                BirdService = await _birdServiceRepository.GetAllByProviderId(id);  
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Infrastructure.InterfaceRepositories
 {
     public interface IProviderRepository : IRepositoryBase<Provider>
     {
-        public Task<Provider?> GetProviderById(int? id);
+        public Task<Provider> GetProviderById(int? id);
         public Task<IList<Provider>?> GetProviderByName(string name);
         public Task<List<Provider>> GetAllProviders();
     }
