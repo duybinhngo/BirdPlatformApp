@@ -27,6 +27,9 @@ namespace Application
             services.AddTransient<IBirdService, BirdService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IScheduleTicketService, ScheduleTicketService>();
+            services.AddTransient<IFeedbackService, FeedbackService>();
+            services.AddTransient<ICategoriesService, CategoriesService>();
+            services.AddTransient<IProviderService, ProviderService>();
 
             return services;
         }

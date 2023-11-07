@@ -1,0 +1,140 @@
+﻿@page
+@model BirdPlatFormApp.Pages.ProviderPages.TicketManagementModel
+@{
+}
+<div>
+    <form asp-page-handler="Search" method="post">
+        <div class="form-group d-flex justify-content-end">
+            <input type="text" name="search" class="form-control w-50 mr-1" placeholder="Search">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-6">
+            @foreach (var item in Model.Orders)
+            {
+                @if (item.Status == 1)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/pending.png" />
+                                    <form asp-page-handler="AcceptOrder" method="post" class="mb-1">
+                                        <input asp-for="OrderId" value="@item.Id" hidden />
+                                        <button class="btn btn-outline-success" type="submit">Accept</button>
+                                    </form>
+                                    <form asp-page-handler="RejectOrder" method="post">
+                                        <input asp-for="OrderId" value="@item.Id" hidden />
+                                        <button class="btn btn-outline-danger" type="submit">Reject</button>
+                                    </form>
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-start flex-column">
+                                                <h6 class="card-title mb-0">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-warning">Pending</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-6">
+            @foreach (var item in Model.Orders)
+            {
+                @if (item.Status == 0)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/rejected.png" />
+                                    <form asp-page-handler="Undo" method="post">
+                                        <input asp-for="OrderId" value="@item.Id" hidden />
+                                        <button class="btn btn-outline-warning" type="submit">Undo</button>
+                                    </form>
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-start flex-column">
+                                                <h6 class="card-title mb-0">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-danger">Rejected</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                @if (item.Status == 2)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/success.png" />
+                                    <form asp-page-handler="Undo" method="post">
+                                        <input asp-for="OrderId" value="@item.Id" hidden />
+                                        <button class="btn btn-outline-warning" type="submit">Undo</button>
+                                    </form>
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-start flex-column">
+                                                <h6 class="card-title mb-0">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-success">Accepted</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-truncate mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

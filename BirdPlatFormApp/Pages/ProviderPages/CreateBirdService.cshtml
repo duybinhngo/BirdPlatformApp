@@ -1,0 +1,45 @@
+﻿@page
+@model BirdPlatFormApp.Pages.ProviderPages.CreateBirdServiceModel
+
+@{
+    ViewData["Title"] = "Create Bird Service";
+}
+
+<h1>Create Bird Service</h1>
+<hr />
+<div class="row">
+    <div class="col">
+        <form asp-page-handler="CreateService" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="BirdService.CategoryId" class="control-label">Category</label>
+                <select asp-for="BirdService.CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+            </div>
+                
+            <div class="row">
+                <div class="form-group col-6">
+                    <label asp-for="BirdService.AvailableSlots" class="control-label"></label>
+                    <input type="number" asp-for="BirdService.AvailableSlots" class="form-control" />
+                    <span asp-validation-for="BirdService.AvailableSlots" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="BirdService.Price" class="control-label"></label>
+                    <input type="number" asp-for="BirdService.Price" class="form-control" />
+                    <span asp-validation-for="BirdService.Price" class="text-danger"></span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="BirdService.Description" class="control-label"></label>
+                <textarea rows="10" asp-for="BirdService.Description" class="form-control"> </textarea>
+                <span asp-validation-for="BirdService.Description" class="text-danger"></span>
+            </div>
+            <div class="text-center mt-3"><button type="submit" class="btn btn-outline-primary">Save</button></div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
