@@ -17,12 +17,12 @@ namespace Infrastructure.InterfaceRepositories
 
         public async Task<Provider> GetProviderById(int? id)
         {
-            return await _context.Providers.Where(x => x.Id == id).FirstAsync();
+            return await _context.Providers.Where(x => x.Id == id).AsNoTracking().FirstOrDefaultAsync();
         }
 
         public async Task<IList<Provider>?> GetProviderByName(string name)
         {
-            return await _context.Providers.Where(x => name.Contains(x.ProviderName)).ToListAsync();
+            return await _context.Providers.Where(x => x.ProviderName.Contains(name)).ToListAsync();
         }
     }
 }

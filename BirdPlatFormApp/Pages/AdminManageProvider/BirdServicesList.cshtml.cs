@@ -17,7 +17,7 @@ namespace BirdPlatFormApp.Pages.AdminManageProvider
 
         public BirdServicesListModel(IBirdServiceRepository birdServiceRepository)
         {
-            birdServiceRepository = _birdServiceRepository;
+            _birdServiceRepository = birdServiceRepository;
         }
 
         public IList<BirdService> BirdService { get;set; } = default!;

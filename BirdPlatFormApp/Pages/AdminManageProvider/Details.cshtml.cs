@@ -23,7 +23,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _providerRepository.GetAllProviders() == null)
+            if (id == null || await _providerRepository.GetAllProviders() == null)
             {
                 return NotFound();
             }

@@ -16,7 +16,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
         private readonly IProviderRepository _providerRepository;
         public BanModel(IProviderRepository providerRepository)
         {
-            providerRepository = _providerRepository;
+            _providerRepository = providerRepository;
         }
 
         [BindProperty]
@@ -42,7 +42,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostBanAsync(int? id)
+        public async Task<IActionResult> OnPostBan(int? id)
         {
             if (id == null)
             {
@@ -60,7 +60,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
             return RedirectToPage("./Index");
         }
 
-        public async Task<IActionResult> OnPostUnbanAsync(int? id)
+        public async Task<IActionResult> OnPostUnban(int? id)
         {
             if (id == null)
             {

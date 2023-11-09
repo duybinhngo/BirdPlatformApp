@@ -17,7 +17,7 @@ namespace BirdPlatFormApp.Pages.AdminPages
 
         public CreateModel(IProviderRepository providerRepository)
         {
-            providerRepository = _providerRepository;
+            _providerRepository = providerRepository;
         }
 
         public IActionResult OnGet()
