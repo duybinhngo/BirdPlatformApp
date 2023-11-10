@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Domain.Entities;
 using Application.Services.Interfaces;
+using Infrastructure.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BirdPlatFormApp.Pages.BirdServicePages
 {
@@ -14,12 +16,19 @@ namespace BirdPlatFormApp.Pages.BirdServicePages
         }
 
         public IList<BirdService> BirdService { get;set; } = default!;
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (birdService != null)
+            if (Authentication.CheckCustomer(HttpContext))
             {
+               
                 BirdService = await birdService.GetAsync(string.Empty);
+                
+                return Page();
+
             }
+
+            return RedirectToPage("/Login");
+            
         }
 
         public async Task OnPostSearchAsync()

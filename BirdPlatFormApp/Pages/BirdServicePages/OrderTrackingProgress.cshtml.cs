@@ -33,18 +33,20 @@ namespace BirdPlatFormApp.Pages.BirdServicePages
 
         public async Task<IActionResult> OnGet()
         {
-            var user = Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
-            if (user is null)
+            if (!Authentication.CheckCustomer(HttpContext))
             {
+               
                 return RedirectToPage("/Login");
+
             }
+            var user = Authentication.GetAuthenticatedUser(HttpContext);
             Order = await orderService.GetOrderAsync(user.Email);
             return Page();
         }
 
         public async Task<IActionResult> OnPostFeedback()
         {
-            var user = Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
+            var user = Authentication.GetAuthenticatedUser(HttpContext);
             if (user is null)
             {
                 return RedirectToPage("/Login");
