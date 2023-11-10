@@ -29,8 +29,7 @@ namespace BirdPlatFormApp.Pages.ProviderPages
 
         public async Task<IActionResult> OnGet()
         {
-            var user = Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
-            if (user is null || user.RoleId != 1)
+            if (!Authentication.CheckProvider(HttpContext))
             {
                 return RedirectToPage("/Login");
             }
@@ -45,11 +44,11 @@ namespace BirdPlatFormApp.Pages.ProviderPages
         
         public async Task<IActionResult> OnPostCreateService()
         {
-            var user = Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
-            if (user is null || user.RoleId != 1)
+            if (!Authentication.CheckProvider(HttpContext))
             {
                 return RedirectToPage("/Login");
             }
+            var user = Authentication.GetAuthenticatedUser(HttpContext);
 
             BirdService.ProviderId = user.Id;
             BirdService.IsRentingService = BirdService.CategoryId == 8 ? 1 : 0;

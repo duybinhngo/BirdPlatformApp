@@ -55,10 +55,13 @@ namespace Application.Authentication.Google
             googleResponse.Credential = credential;
 
             ApplicationUser appUser = null;
+
             var provider = await providerService.GetAsyncByEmail(userInfo.Email);
+
             if(provider is null)
             {
-                var customer = await customerRepository.Authenticated(userInfo.Email, userInfo.Name, userInfo.Picture);
+                var customer = await customerRepository.Authenticated(userInfo.Email
+                    , userInfo.Name, userInfo.Picture);
                 if (customer is null) return null;
                 
                 appUser = new ApplicationUser()
@@ -68,7 +71,7 @@ namespace Application.Authentication.Google
                     UserName = customer.Username,
                     IsActive = customer.IsActive,
                     AvatarUrl = customer.AvatarUrl,
-                    RoleId = 0
+                    RoleId = 1
                 };
             }
             else
@@ -80,20 +83,19 @@ namespace Application.Authentication.Google
                     UserName = provider.ProviderName,
                     IsActive = provider.IsActive,
                     AvatarUrl = provider.AvatarUrl,
-                    RoleId = 1
+                    RoleId = 2
                 };
             }
 
             
             Auth::Authentication.SetAuthentication(httpContextAccessor.HttpContext, appUser);
             var result = Auth::Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
-            Console.WriteLine(result);
             return userInfo;
         }
 
         public async Task<bool> LogoutAsync()
         {
-            //Auth::Authentication.ClearAuthentication(httpContextAccessor.HttpContext);
+            Auth::Authentication.ClearAuthentication(httpContextAccessor.HttpContext);
             return await RevokeAsync();
         }
 

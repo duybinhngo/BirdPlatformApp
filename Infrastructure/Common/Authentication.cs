@@ -37,14 +37,34 @@ namespace Infrastructure.Common
             httpContext.Session.Remove(UserSessionKey);
         }
 
+        public static bool CheckCustomer(HttpContext httpContext)
+        {
+            if (IsAuthenticated(httpContext))
+            {
+                ApplicationUser user = GetAuthenticatedUser(httpContext);
+                if (user != null && user.RoleId == 1) return true;
+            }
+            return false;
+        }
+
+        public static bool CheckProvider(HttpContext httpContext)
+        {
+            if (IsAuthenticated(httpContext))
+            {
+                ApplicationUser user = GetAuthenticatedUser(httpContext);
+                if (user != null && user.RoleId == 2) return true;
+            }
+            return false;
+        }
+
         /*public static bool CheckAdmin(HttpContext httpContext)
         {
             if (IsAuthenticated(httpContext))
             {
-                DefaultAdmin user = SessionAuthentication.GetAuthenticatedUser(httpContext);
+                ApplicationUser user = GetAuthenticatedUser(httpContext);
                 if (user != null
                     && user.Email.Equals("admin@FUCarRentingSystem.com")
-                    && user.Password.Equals("@@admin@@")) return true;
+                    && user..Equals("@@admin@@")) return true;
             }
             return false;
         }*/

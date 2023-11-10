@@ -30,14 +30,16 @@ namespace BirdPlatFormApp.Pages.ProviderPages
         public string OrderId { get; set; } = default!;
         public async Task<IActionResult> OnGet()
         {
-            var user = Authentication.GetAuthenticatedUser(httpContextAccessor.HttpContext);
-            if (user is null || user.RoleId != 1)
+            
+            if (Authentication.CheckProvider(HttpContext))
             {
-                return RedirectToPage("/Login");
+                var user = Authentication.GetAuthenticatedUser(HttpContext);
+                Orders = await orderService.GetOrderAsync(user.Email);
+                return Page();
+                
             }
 
-            Orders = await orderService.GetOrderAsync(user.Email);
-            return Page();
+            return RedirectToPage("/Login");
         }
 
         public async Task<IActionResult> OnPostAcceptOrder()

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain.Entities;
 using Infrastructure;
 using Infrastructure.InterfaceRepositories;
+using Infrastructure.Common;
 
 namespace BirdPlatFormApp.Pages.CustomerPages
 {
@@ -22,12 +23,28 @@ namespace BirdPlatFormApp.Pages.CustomerPages
 
         public IList<Customer> Customer { get;set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
+
+            if (!Authentication.IsAuthenticated(HttpContext))
+            {
+                
+                return RedirectToPage("/Login");
+           
+            }
+            else
+            {
+                if (!Authentication.CheckCustomer(HttpContext))
+                {
+                    return RedirectToPage("/Login");
+                }
+            }
+
             if (_context != null)
             {
                 Customer = await _context.GetAll().ToListAsync();
             }
+            return Page();
         }
     }
 }

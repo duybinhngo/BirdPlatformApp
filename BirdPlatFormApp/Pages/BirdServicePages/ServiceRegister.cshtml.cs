@@ -42,6 +42,10 @@ namespace BirdPlatFormApp.Pages.BirdServicePages
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (!Authentication.CheckCustomer(HttpContext))
+            {
+                return RedirectToPage("/Login");
+            }
             BirdService = await birdService.GetByIdAsync(id ?? 0);
             return Page();
         }
