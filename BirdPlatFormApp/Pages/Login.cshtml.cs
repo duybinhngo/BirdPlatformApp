@@ -35,6 +35,10 @@ namespace BirdPlatFormApp.Pages
 
         public async Task<IActionResult> OnPost()
         {
+            if(Username == "admin@gmail.com" && Password == "1")
+            {
+                return RedirectToPage("/AdminManageProvider/Index");
+            }
             return Page();
         }
 
