@@ -22,7 +22,7 @@ namespace Infrastructure.InterfaceRepositories
 
         public async Task<IList<Provider>?> GetProviderByName(string name)
         {
-            return await _context.Providers.Where(x => name.Contains(x.ProviderName)).ToListAsync();
+            return await _context.Providers.Where(x => x.ProviderName.Contains(name)).ToListAsync();
         }
     }
 }
