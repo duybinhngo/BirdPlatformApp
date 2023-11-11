@@ -1,0 +1,116 @@
+﻿@page
+@model BirdPlatFormApp.Pages.BirdServicePages.IndexModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+<div>
+    <form asp-page-handler="Search" method="post">
+        <div class="form-group d-flex justify-content-end">
+            <input type="text" name="search" class="form-control w-50 mr-1" placeholder="Search">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col">
+            @foreach (var item in Model.BirdService)
+            {
+                <div class="card mb-4">
+                    <div id="service-section" class="card-body cursor-pointer">
+                        <div class="d-flex justify-content-around">
+                            <div class="d-flex flex-column">
+                                <img style="width: 120px; height: 75px;" class="img-fluid rounded align-self-center mb-2" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
+                                <div class="d-flex">
+
+                                    <button class="btn btn-outline-primary mr-1"><a class="text-decoration-none" asp-page="./ServiceRegister" asp-route-id="@item.Id">Register</a></button>
+                                    <button class="btn btn-outline-success" onclick="showFeedbackModal(@Html.DisplayFor(modelItem => item.Id))">Feedback</button>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <h5 class="card-title mb-0">@Html.DisplayFor(modelItem => item.Category.Name)</h5>
+                                        <strong>@Html.DisplayFor(modelItem => item.Price)$</strong>
+                                    </div>
+                                    <span class="text-small">@Html.DisplayFor(modelItem => item.CreatedAt)</span>
+                                </div>
+                                <div class="card-text d-flex justify-content-between">
+                                    <span>@Html.DisplayFor(modelItem => item.Provider.ProviderName)</span>
+                                </div>
+                                <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="provider-@Html.DisplayFor(modelItem => item.Id)" class="col mb-3 p-0 hidden">
+                    <div class="card">
+                        <div class="card-body">
+                            <img class="img-fluid rounded mb-2 mt-1"
+                                 src="@Html.DisplayFor(modelItem => item.Provider.AvatarUrl)" />
+                            <h5 class="card-title">@Html.DisplayFor(modelItem => item.Provider.ProviderName)</h5>
+                            <p class="card-text">Số điện thoại: @Html.DisplayFor(modelItem => item.Provider.PhoneNumber)</p>
+                            <p class="card-text">Địa chỉ: @Html.DisplayFor(modelItem => item.Provider.Address)</p>
+                            <strong>Mô tả</strong>
+                            <p class="card-text">
+                                My bird shop is your ultimate destination for all things avian! We offer a wide array of products and services dedicated to your beloved feathered friends. From a variety of bird species to cages, toys, and nutritional supplies, we cater to all your bird care needs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="feedback-@Html.DisplayFor(modelItem => item.Id)" class="modal hidden">
+                    <div class="modal-content d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                            <h3>Feedbacks</h3>
+                            <span class="close" onclick="closeFeedbackModal(@Html.DisplayFor(modelItem => item.Id))">&times;</span>
+                        </div>
+                        @foreach (var feeback in item.Feedbacks)
+                        {
+                            <div class="container d-flex flex-column">
+                                <div class="d-flex mb-2">
+                                    <div class="mr-2">
+                                        <strong class="font-large">@Html.DisplayFor(modelItem => feeback.CustomerName)</strong>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="fa fa-star rate-checked"></span>
+                                        <span class="fa fa-star rate-checked"></span>
+                                        <span class="fa fa-star rate-checked"></span>
+                                        <span class="fa fa-star rate-checked"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span>@Html.DisplayFor(modelItem => feeback.Description)</span>
+                                </div>
+                            <hr/>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<@* div class="position-fixed" style="top: 150px; right: 0; width:320px">
+    <h4>Recent Services</h4>
+    <hr/>
+    @foreach (var item in Model.BirdService)
+    {
+        <div class="d-flex justify-content-start mb-2">
+            <img style="width: 100px; height: 75px;" class="img-fluid rounded mr-2" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
+            <div class="d-flex flex-column">
+                <div class="d-flex">
+                    <strong>@Html.DisplayFor(modelItem => item.Category.Name)</strong>
+                    <div class="d-flex justify-content-start ml-1">
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                        <span class="fa fa-star rate-checked"></span>
+                    </div>
+                </div>
+                <span>@Html.DisplayFor(modelItem => item.CreatedAt.Day)/@Html.DisplayFor(modelItem => item.CreatedAt.Month)/@Html.DisplayFor(modelItem => item.CreatedAt.Year)</span>
+            </div>
+        </div>
+    }
+</div> *@

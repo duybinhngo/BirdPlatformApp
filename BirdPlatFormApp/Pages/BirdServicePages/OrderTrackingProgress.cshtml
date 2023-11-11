@@ -1,0 +1,305 @@
+﻿@page   
+@model BirdPlatFormApp.Pages.BirdServicePages.OrderTrackingProgressModel
+@{
+    ViewData["Title"] = "Order Progress | BirdService";
+}
+
+<div>
+    <form asp-page-handler="Search" method="post">
+        <div class="form-group d-flex justify-content-end">
+            <input type="text" name="search" class="form-control w-50 mr-1" placeholder="Search">
+            <button class="btn btn-outline-primary" type="submit">Search</button>
+        </div>
+    </form>
+    <div class="row">
+        <div class="col-6">
+            @foreach (var item in Model.Order)
+            {
+                @if (item.Status == 1)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/pending.png" />
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-center flex-column">
+                                                <h6 class="card-title mb-0 mr-2">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-warning">Pending</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="provider-@Html.DisplayFor(modelItem => item.Id)" class="col mb-3 p-0 hidden">
+                        <div class="card">
+                            <div class="card-body">
+                                <img class="img-fluid rounded mb-2 mt-1"
+                                     src="@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.AvatarUrl)" />
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.ProviderName)</h5>
+                                <p class="card-text">Số điện thoại: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.PhoneNumber)</p>
+                                <p class="card-text">Địa chỉ: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.Address)</p>
+                                <strong>Mô tả</strong>
+                                <p class="card-text">
+                                    My bird shop is your ultimate destination for all things avian! We offer a wide array of products and services dedicated to your beloved feathered friends. From a variety of bird species to cages, toys, and nutritional supplies, we cater to all your bird care needs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="add-feedback-@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Id)" class="modal hidden">
+                        <div class="modal-content d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <h3>Feedbacks</h3>
+                                <span class="close" onclick="closeFeedbackModal(@Html.DisplayFor(modelItem => item.Id))">&times;</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <form asp-page-handler="Feedback" method="post">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Add your feedback</label>
+                                            <textarea class="form-control" rows="3" asp-for="feedback"></textarea>
+                                        </div>
+                                        <button class="btn btn-outline-success">Feedback</button>
+                                    </form>
+                                </div>
+                                <div class="col-8">
+                                    @foreach (var feeback in item.ScheduleTickets.FirstOrDefault()!.BirdService.Feedbacks)
+                                    {
+                                        <div class="container d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <div class="mr-2">
+                                                    <strong class="font-large">@Html.DisplayFor(modelItem => feeback.CustomerName)</strong>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span>@Html.DisplayFor(modelItem => feeback.Description)</span>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
+        </div>
+        <div class="col-6">
+            @foreach (var item in Model.Order)
+            {
+                @if (item.Status == 0)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/rejected.png" />
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-center flex-column">
+                                                <h6 class="card-title mb-0 mr-2">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-secondary">Rejected</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-wrap mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="provider-@Html.DisplayFor(modelItem => item.Id)" class="col mb-3 p-0 hidden">
+                        <div class="card">
+                            <div class="card-body">
+                                <img class="img-fluid rounded mb-2 mt-1"
+                                     src="@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.AvatarUrl)" />
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.ProviderName)</h5>
+                                <p class="card-text">Số điện thoại: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.PhoneNumber)</p>
+                                <p class="card-text">Địa chỉ: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.Address)</p>
+                                <strong>Mô tả</strong>
+                                <p class="card-text">
+                                    My bird shop is your ultimate destination for all things avian! We offer a wide array of products and services dedicated to your beloved feathered friends. From a variety of bird species to cages, toys, and nutritional supplies, we cater to all your bird care needs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="add-feedback-@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Id)" class="modal hidden">
+                        <div class="modal-content d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <h3>Feedbacks</h3>
+                                <span class="close" onclick="closeFeedbackModal(@Html.DisplayFor(modelItem => item.Id))">&times;</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <form asp-page-handler="Feedback" method="post">
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Add your feedback</label>
+                                            <textarea class="form-control" rows="3" asp-for="feedback"></textarea>
+                                        </div>
+                                        <button class="btn btn-outline-success">Feedback</button>
+                                    </form>
+                                </div>
+                                <div class="col-8">
+                                    @foreach (var feeback in item.ScheduleTickets.FirstOrDefault()!.BirdService.Feedbacks)
+                                    {
+                                        <div class="container d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <div class="mr-2">
+                                                    <strong class="font-large">@Html.DisplayFor(modelItem => feeback.CustomerName)</strong>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span>@Html.DisplayFor(modelItem => feeback.Description)</span>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+                @if (item.Status == 2)
+                {
+                    <div class="card mb-4">
+                        <div id="service-section" class="card-body cursor-pointer">
+                            <div class="d-flex justify-content-around">
+                                <div class="d-flex flex-column">
+                                    <img style="width: 50px; height: 50px;" class="img-fluid rounded align-self-center mb-2" src="~/assets/success.png" />
+                                    <button class="btn btn-outline-success" onclick="addFeedbackModal(@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Id))">Feedback</button>
+                                </div>
+                                <div class="d-flex flex-column w-75" onclick="toogleProvider(@Html.DisplayFor(modelItem => item.Id))">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <div class="d-flex align-items-center flex-column">
+                                                <h6 class="card-title mb-0 mr-2">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Category.Name)</h6>
+                                                <small class="text-success">Accepted</small>
+                                            </div>
+                                            <strong class="text-success">@Html.DisplayFor(modelItem => item.TotalPrice)$</strong>
+                                        </div>
+                                        <div class="d-flex flex-column">
+                                            <small class="text-small mb-1">From: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleFrom)</small>
+                                            <small class="text-small">To: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.ScheduleTo)</small>
+                                        </div>
+                                    </div>
+                                    <div class="card-text d-flex justify-content-between">
+                                        <div>
+                                            <small class="ml-0 text-info">Order At: @Html.DisplayFor(modelItem => item.OrderDate)</small>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-truncate mt-3"> @Html.DisplayFor(modelItem => item.Description)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="provider-@Html.DisplayFor(modelItem => item.Id)" class="col mb-3 p-0 hidden">
+                        <div class="card">
+                            <div class="card-body">
+                                <img class="img-fluid rounded mb-2 mt-1"
+                                     src="@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.AvatarUrl)" />
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.ProviderName)</h5>
+                                <p class="card-text">Số điện thoại: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.PhoneNumber)</p>
+                                <p class="card-text">Địa chỉ: @Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Provider.Address)</p>
+                                <strong>Mô tả</strong>
+                                <p class="card-text">
+                                    My bird shop is your ultimate destination for all things avian! We offer a wide array of products and services dedicated to your beloved feathered friends. From a variety of bird species to cages, toys, and nutritional supplies, we cater to all your bird care needs.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="add-feedback-@Html.DisplayFor(modelItem => item.ScheduleTickets.FirstOrDefault()!.BirdService.Id)" class="modal hidden">
+                        <div class="modal-content d-flex flex-column">
+                            <div class="d-flex justify-content-between">
+                                <h3>Feedbacks</h3>
+                                <span class="close" onclick="closeFeedbackModal(@Html.DisplayFor(modelItem => item.Id))">&times;</span>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <form asp-page-handler="Feedback" method="post">
+                                        <input asp-for="BirdService.Id" value="@item.ScheduleTickets.FirstOrDefault()!.BirdService.Id" hidden />
+                                        <div class="mb-3">
+                                            <label for="" class="form-label">Add your feedback</label>
+                                            <textarea class="form-control" rows="3" asp-for="feedback"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-outline-success">Feedback</button>
+                                    </form>
+                                </div>
+                                <div class="col-8">
+                                    @foreach (var feeback in item.ScheduleTickets.FirstOrDefault()!.BirdService.Feedbacks)
+                                    {
+                                        <div class="container d-flex flex-column">
+                                            <div class="d-flex mb-2">
+                                                <div class="mr-2">
+                                                    <strong class="font-large">@Html.DisplayFor(modelItem => feeback.CustomerName)</strong>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star rate-checked"></span>
+                                                    <span class="fa fa-star"></span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <span>@Html.DisplayFor(modelItem => feeback.Description)</span>
+                                            </div>
+                                            <hr />
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

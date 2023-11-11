@@ -1,0 +1,39 @@
+﻿@page
+@model BirdPlatFormApp.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+<div>
+    <div class="p-5 rounded white-bg row d-flex">
+        <div class="d-flex flex-column col-6">
+            <img class="img-thumbnail w-100 rounded" src="https://gudlogo.com/wp-content/uploads/2019/05/logo-chim-canh-cut-32.jpg" />
+        </div>
+        <div class="h-100 d-flex flex-column col-6">
+            <h4>Login Form</h4>
+            <form method="post" class="flex-column d-flex mb-2 align-items-center justify-content-center">
+                <div class="input-group mb-3 w-100">
+                    <div class="form-group m-1 w-100">
+                        <label for="Username">Username</label>
+                        <input type="text" class="form-control" asp-for="Username" />
+                    </div>
+                </div>
+                <div class="input-group mb-3 w-100">
+                    <div class="form-group m-1 w-100">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" asp-for="Password" />
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary align-self-center w-50"> Login</button>
+            </form>
+            <p class="text-center mb-2">Or Login By</p>
+            <form asp-page-handler="GoogleLogin" method="post" class="d-flex justify-content-center">
+                <div class="d-flex px-2">
+                    <button class="btn btn-outline-primary" type="submit">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        <span>Login with google</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

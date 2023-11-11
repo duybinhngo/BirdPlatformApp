@@ -1,0 +1,76 @@
+﻿@page
+@model BirdPlatFormApp.Pages.AdminManageProvider.BirdServicesListModel
+
+@{
+    ViewData["Title"] = "BirdServicesList";
+}
+
+<h1>BirdServicesList</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].AvailableSlots)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].IsActive)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirdService[0].Provider)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.BirdService) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AvailableSlots)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Provider.Password)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<div>
+    <a asp-page="./Index">Back to Providers' List</a>
+</div>
